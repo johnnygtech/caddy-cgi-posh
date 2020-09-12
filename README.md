@@ -15,9 +15,11 @@ download the CGI version of caddy from: https://caddyserver.com/download
 
 ### Wish list  
 1) implement wildcard routing so that new scripts/endpoints can be added dynaimcally
+    a) this does work on linux
+    b) not yet working on Windows
 2) GUI Support - PSHTML implementation?
 3) Authentication support/plugin
-
+4) Relative cgi file paths in caddyfile
 
 ## Getting started
 Run the Launch.ps1 file which will use the Caddyfile and custom caddy-cgi.exe to start a server on localhost:9002
@@ -36,11 +38,12 @@ In theory though the only requirements for any OS to run this solution are
 2) a powershell implementation for your os/arch
 
 #### Windows Shebang
-#!C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
-Although it should be noted this doesn't work yet
+#!C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File
+Although it should be noted this doesn't work yet when defined in the scripts,
+it DOES work when defined before the script in the Caddyfile as seen in Caddyfile-Backup-WindowShebang
 
-#### Linux Shebang
+#### Ubuntu Shebang
 #!/usr/bin/env pwsh
 
 #### OSX Shebang
-todo
+todo: Probably same as Ubuntu?
