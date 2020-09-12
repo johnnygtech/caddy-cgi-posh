@@ -1,0 +1,16 @@
+{
+    http_port 9002
+    order cgi last
+}
+
+localhost:9002
+#root * /mnt/c/Users/johng/OneDrive/Desktop/caddy-cgi-posh/cgi
+
+cgi /*.ps1 C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\cgi\\/{path} {
+
+}
+
+cgi /* C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\cgi\\/{path}.ps1 {
+
+}
+
