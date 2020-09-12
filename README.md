@@ -19,5 +19,28 @@ download the CGI version of caddy from: https://caddyserver.com/download
 3) Authentication support/plugin
 
 
-### Getting started
+## Getting started
 Run the Launch.ps1 file which will use the Caddyfile and custom caddy-cgi.exe to start a server on localhost:9002
+
+### General Notes
+The ps1 scripts must return the Content-Type: <> header in the return text, so its clear that some sort of "layer" will be necessary
+to act as the script broker that ensures the proper headers and w/e are returned base on content type. Or each script itself must return its own data.
+
+This might end up being a neat powershell module use case?
+
+### Notes about OS implementation
+I want this solution to work on all OS's with .net core access, but specifically required are Windows/Ubuntu/OSX since I use these on a daily basis.
+
+In theory though the only requirements for any OS to run this solution are 
+1) a caddy build with cgi add on for whatever os/arch you want
+2) a powershell implementation for your os/arch
+
+#### Windows Shebang
+#!C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+Although it should be noted this doesn't work yet
+
+#### Linux Shebang
+#!/usr/bin/env pwsh
+
+#### OSX Shebang
+todo
