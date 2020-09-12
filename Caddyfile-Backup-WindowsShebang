@@ -6,11 +6,11 @@
 localhost:9002
 #root * /mnt/c/Users/johng/OneDrive/Desktop/caddy-cgi-posh/cgi
 
-cgi /test.ps1 C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\cgi\test.ps1 {
+cgi /*.ps1 C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\cgi\\/{path} {
     script_name test
 }
 
-cgi /*.ps1 C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\cgi\{path} {
+cgi /* C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\cgi\\/{path}.ps1 {
     script_name test
 }
 
