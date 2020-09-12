@@ -29,8 +29,9 @@ $caddyfile = $(get-item $relcaddyfile).fullname
 Write-host "waiting for server to start before running tests"
 Start-sleep -seconds 3
 ./tests.ps1
-read-host "`r`npress enter to stop server"
-& $serverbin stop
+
+Write-host "Run '& `$serverbin stop' to stop the server "
+#& $serverbin stop
 # run as background job.  (kinda does this on its own so likely overkill?)
 #specify a caddy file
 #start-job -scriptblock {set-location $(get-item $args[0]).directory; & $args[0] start $args[1]} -argumentlist $serverbin,$caddyfile
