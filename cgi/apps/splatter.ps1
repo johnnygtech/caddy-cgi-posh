@@ -73,10 +73,19 @@ switch($env:REQUEST_METHOD)
                 }
                 else
                 {
-                    Write-Verbose "Executing Command: $Command `r`n"
                     # here we execute the provided command with the specified parameters "splatted", convert it to json and add the content type 
-                    return "$contentType$(convertto-json $(& $command @queryStringHashTable))"
+                    try{
+                       
+                        return "$contentType$(convertto-json $(& $command @queryStringHashTable))"
+                    }
+                    catch
+                    {
+                        # we've made it this far... if an error occurred the request was either bad or unsupported
+                        return "$ContentType$(convertto-json @{"responsecode"="400";"response"=$($error[0].toString())})"
+                    }
                 }
+
+                #Default error
                 return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command execution failed"})"
             }
             else  #return standard splash page
@@ -88,9 +97,8 @@ switch($env:REQUEST_METHOD)
         {
             #force content type, this is a decision to always return json
             #$contentType="Content-Type: application/json`n`n"
-            $fullinput=$input
                 
-            $PostDataHashTable=$(ConvertFrom-Json $fullinput) | ConvertTo-HashTable
+            $PostDataHashTable=$(ConvertFrom-Json $input) | ConvertTo-HashTable
             $command=$null
 
             #Extract COmmand
@@ -103,9 +111,18 @@ switch($env:REQUEST_METHOD)
             {
                 $PostDataHashTable.remove("command");
                 # here we execute the provided command with the specified parameters "splatted", convert it to json and add the content type 
-                return "$contentType$(convertto-json $(& $command @PostDataHashTable))"
+                try
+                { 
+                    return "$contentType$(convertto-json $(& $command @PostDataHashTable ))"
+                }
+                catch
+                {
+                    # we've made it this far... if an error occurred the request was either bad or unsupported
+                    return "$ContentType$(convertto-json @{"responsecode"="400";"response"=$($error[0].toString())})"
+                }
             }
 
+            #Default error
             return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command execution failed"})"
 
         }
