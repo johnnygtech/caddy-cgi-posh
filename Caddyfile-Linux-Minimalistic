@@ -5,6 +5,10 @@
 
 localhost:9002
 
+cgi / /mnt/c/Users/johng/OneDrive/Desktop/caddy-cgi-posh/cgi/helloworld.ps1 {
+
+}
+
 cgi /*.ps1 /mnt/c/Users/johng/OneDrive/Desktop/caddy-cgi-posh/cgi/{path} {
 
 }
