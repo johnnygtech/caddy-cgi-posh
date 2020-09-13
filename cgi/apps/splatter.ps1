@@ -34,6 +34,9 @@ function ConvertTo-Hashtable
     }
 }
 
+
+$contentType="Content-Type: application/json`n`n"
+
 $default="Content-Type: text/html`n`n
 <html>
     <body>
@@ -53,7 +56,7 @@ switch($env:REQUEST_METHOD)
             if(-not $([string]::isnullorempty($env:QUERY_STRING))) #user gave us something to do
             {
                 #force content type, this is a decision to always return json
-                $contentType="Content-Type: application/json`n`n"
+                #$contentType="Content-Type: application/json`n`n"
 
                 #split
                 $queryStringSplit=$($env:QUERY_STRING -split "&")
@@ -66,13 +69,15 @@ switch($env:REQUEST_METHOD)
                 }
                 if(-not $command)
                 {
-                    return "$contentType$(Convertto-json @{"responsecode"="404";"reponse"="command not provided"})"
+                    return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command not provided"})"
                 }
                 else
                 {
                     Write-Verbose "Executing Command: $Command `r`n"
+                    # here we execute the provided command with the specified parameters "splatted", convert it to json and add the content type 
                     return "$contentType$(convertto-json $(& $command @queryStringHashTable))"
                 }
+                return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command execution failed"})"
             }
             else  #return standard splash page
             {
@@ -82,7 +87,7 @@ switch($env:REQUEST_METHOD)
     "POST"
         {
             #force content type, this is a decision to always return json
-            $contentType="Content-Type: application/json`n`n"
+            #$contentType="Content-Type: application/json`n`n"
             $fullinput=$input
                 
             $PostDataHashTable=$(ConvertFrom-Json $fullinput) | ConvertTo-HashTable
@@ -92,17 +97,18 @@ switch($env:REQUEST_METHOD)
             $command = $PostDataHashTable."command"
             if(-not $command)
             {
-                return "$contentType$(Convertto-json @{"responsecode"="404";"reponse"="command not provided: $command";"postdata"=$PostDataHashTable})"
+                return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command not provided: $command";"postdata"=$PostDataHashTable})"
             }
             else
             {
                 $PostDataHashTable.remove("command");
+                # here we execute the provided command with the specified parameters "splatted", convert it to json and add the content type 
                 return "$contentType$(convertto-json $(& $command @PostDataHashTable))"
             }
 
-            return Convertto-json @{"responsecode"="404";"reponse"="command execution failed"}
+            return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command execution failed"})"
 
         }
-    default { return Convertto-json @{"responsecode"="404";"reponse"="method not found: $env:REQUEST_METHOD"} }
+    default { return "$contentType$(Convertto-json @{"responsecode"="404";"response"="method not supported: $env:REQUEST_METHOD"} )" }
 }
 
