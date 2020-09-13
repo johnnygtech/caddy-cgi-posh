@@ -81,32 +81,27 @@ switch($env:REQUEST_METHOD)
         }
     "POST"
         {
-            Write-Verbose "Method is POST: check post data from std in"
-            if(-not $([string]::isnullorempty($input))) #user gave us something to do
-            {
-                #force content type, this is a decision to always return json
-                $contentType="Content-Type: application/json`n`n"
+            #force content type, this is a decision to always return json
+            $contentType="Content-Type: application/json`n`n"
+            $fullinput=$input
+                
+            $PostDataHashTable=$(ConvertFrom-Json $fullinput) | ConvertTo-HashTable
+            $command=$null
 
-                $PostDataHashTable=$(ConvertFrom-Json $input) | ConvertTo-HashTable
-                $command=$null
-
-                #Extract COmmand
-                $command = $PostDataHashTable."command"
-                if(-not $command)
-                {
-                    return "$contentType$(Convertto-json @{"responsecode"="404";"reponse"="command not provided"})"
-                }
-                else
-                {
-                    $PostDataHashTable.remove("command");
-                    return "$contentType$(convertto-json $(& $command @PostDataHashTable))"
-                }
-                return "$contentType$input"
-            }
-            else #return standard splash page
+            #Extract COmmand
+            $command = $PostDataHashTable."command"
+            if(-not $command)
             {
-                return $default
+                return "$contentType$(Convertto-json @{"responsecode"="404";"reponse"="command not provided: $command";"postdata"=$PostDataHashTable})"
             }
+            else
+            {
+                $PostDataHashTable.remove("command");
+                return "$contentType$(convertto-json $(& $command @PostDataHashTable))"
+            }
+
+            return Convertto-json @{"responsecode"="404";"reponse"="command execution failed"}
+
         }
     default { return Convertto-json @{"responsecode"="404";"reponse"="method not found: $env:REQUEST_METHOD"} }
 }
