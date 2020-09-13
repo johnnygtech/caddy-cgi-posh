@@ -69,7 +69,7 @@ switch($env:REQUEST_METHOD)
                 }
                 if(-not $command)
                 {
-                    return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command not provided"})"
+                    return "$contentType$(Convertto-json @{"responsecode"="400";"response"="command not provided"})"
                 }
                 else
                 {
@@ -105,7 +105,7 @@ switch($env:REQUEST_METHOD)
             $command = $PostDataHashTable."command"
             if(-not $command)
             {
-                return "$contentType$(Convertto-json @{"responsecode"="404";"response"="command not provided: $command";"postdata"=$PostDataHashTable})"
+                return "$contentType$(Convertto-json @{"responsecode"="400";"response"="command not provided: $command";"postdata"=$PostDataHashTable})"
             }
             else
             {
