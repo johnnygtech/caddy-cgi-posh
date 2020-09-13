@@ -39,7 +39,7 @@ $default="Content-Type: text/html`n`n
     <body>
         <h1>Splatter</h1>
         <p>Splatter is a powershell handler for posh-caddy that combines http query string or post data to form and execute a powershell command and return the results</p>
-        <a href=`"http://localhost:9002/apps/splatter?command=get-date`">Example: Get-Date</a>
+        <a href=`"splatter?command=get-date`">Example: Get-Date</a>
     </body>
 </html>
 "     
