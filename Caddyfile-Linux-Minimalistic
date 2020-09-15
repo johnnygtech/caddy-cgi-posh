@@ -1,9 +1,9 @@
 {
-    http_port 9002
+    http_port 9054
     order cgi last
 }
 
-localhost:9002
+localhost:9054
 
 cgi / /mnt/c/Users/johng/OneDrive/Desktop/caddy-cgi-posh/cgi/helloworld.ps1 {
 
