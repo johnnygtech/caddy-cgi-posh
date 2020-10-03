@@ -34,7 +34,6 @@ function ConvertTo-Hashtable
     }
 }
 
-
 $contentType="Content-Type: application/json`n`n"
 
 $default="Content-Type: text/html`n`n
