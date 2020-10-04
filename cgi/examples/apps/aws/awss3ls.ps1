@@ -8,6 +8,7 @@ $content= html {
     }
     body {
         h1 "aws s3 command execution example"
+        p "requires examples/apps/aws/awslogin.ps1 - but that doesn't have write access at the moment."
         p "The results of the command will show up below... todo... figure out how to show errors if one occurs"
         div {
            $($data = aws s3 ls ); p { if($?){write-output $($data | ConvertTo-PSHTMLTable)}else{write-output "failed to load aws data"} }
