@@ -33,8 +33,6 @@ function ConvertTo-Hashtable
     }
 }
 
-SEt-location C:\Users\johng\OneDrive\Desktop\caddy-cgi-posh\data\
-
 $default="Content-Type: text/html`n`n
 <html>
     <body>
