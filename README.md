@@ -7,6 +7,9 @@ https://caddyserver.com/docs/getting-started
 ### Caddy version in use in project  
 download the CGI version of caddy from: https://caddyserver.com/download
 
+## Caution: Experimental
+This project is very much Experimental/PoC/Testing and should NOT be used for any production or even internet facing systems at the moment.
+
 ### Approach  
 1) now that were able to get POST and Query string parameters into powershell scripts were basically able to start building systems
 2) Build out a dockerfile to test packaging the scripts/server functions into a deployable package.
@@ -14,15 +17,13 @@ download the CGI version of caddy from: https://caddyserver.com/download
 4) Implement ci/cd pipeline for testing and above publishing capabilities
 
 ### Wish list  
-1) implement wildcard routing so that new scripts/endpoints can be added dynaimcally
-    a) this does work on linux
-    b) not yet working on Windows
-2) GUI Support - PSHTML implementation?
-3) Authentication support/plugin
-4) Relative cgi file paths in caddyfile
+1) CGI bin permissions and Data folder quarantine (windows and linux / design stage)
+2) GUI Support - PSHTML implementation? (WIP)
+3) Authentication support/plugin (caddy? other?)
+4) Relative cgi file paths in caddyfile (for windows)
 
 ## Getting started
-Run the Launch.ps1 file which will use the Caddyfile and custom caddy-cgi.exe to start a server on localhost:9002
+Run the Launch.ps1 file which will use the Caddyfile and custom caddy-cgi.exe/bin to start a server on localhost:9054
 
 ### General Notes
 The ps1 scripts must return the Content-Type: <> header in the return text, so its clear that some sort of "layer" will be necessary
